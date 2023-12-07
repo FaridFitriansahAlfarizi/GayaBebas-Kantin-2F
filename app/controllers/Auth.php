@@ -12,7 +12,7 @@ class Auth extends Controller
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $data['user'] = $this->model('UserModel')->getUser($username, $password);
+        $data['user'] = $this->model('UserModel')->getUserJoinAkses($username, $password);
 
         session_start();
         if ($data['user'] == NULL) {
@@ -20,6 +20,7 @@ class Auth extends Controller
         } else {
             foreach ($data['user'] as $user) :
                 $_SESSION['nama'] = $user['nama'];
+                $_SESSION['level'] = $user['level'];
                 header("Location: " . BASEURL);
             endforeach;
         }
@@ -29,6 +30,7 @@ class Auth extends Controller
     {
         session_start();
         unset($_SESSION['nama']);
+        unset($_SESSION['level']);
         session_destroy();
         header("Location:" . BASEURL);
     }
